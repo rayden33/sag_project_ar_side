@@ -18,6 +18,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
         [SerializeField]
         [Tooltip("Instantiates this prefab on a plane at the touch location.")]
         GameObject m_PlacedPrefab;
+        [SerializeField]
+        GameObject placeBtn;
+        [SerializeField]
+        GameObject unPlaceBtn;
+
+        private bool isBlockTouchPosition = false;
+        private Vector3 objectHitPositin;
 
         /// <summary>
         /// The prefab to instantiate on touch.
@@ -52,7 +59,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         void Update()
         {
+            if (isBlockTouchPosition)
+                return;
+
             if (!TryGetTouchPosition(out Vector2 touchPosition))
+                return;
+
+            if (touchPosition.y < Screen.height * 0.1f)
                 return;
 
             if (m_RaycastManager.Raycast(touchPosition, s_Hits, TrackableType.PlaneWithinPolygon))
@@ -64,12 +77,36 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 if (spawnedObject == null)
                 {
                     spawnedObject = Instantiate(m_PlacedPrefab, hitPose.position, hitPose.rotation);
+                    spawnedObject.transform.position += spawnedObject.transform.up * .1f;
+                    placeBtn.SetActive(true);
+                    objectHitPositin = hitPose.position;
                 }
                 else
                 {
                     spawnedObject.transform.position = hitPose.position;
+                    spawnedObject.transform.position += spawnedObject.transform.up * .1f;
+                    objectHitPositin = hitPose.position;
                 }
             }
+        }
+
+        public void PlaceObject()
+        {
+            isBlockTouchPosition = true;
+            spawnedObject.transform.position = objectHitPositin;
+            spawnedObject.GetComponentInChildren<CarpetManager>().PlaceObject();
+            placeBtn.SetActive(false);
+            unPlaceBtn.SetActive(true);
+        }
+
+        public void UnPlaceObject()
+        {
+            isBlockTouchPosition = false;
+            spawnedObject.transform.position += spawnedObject.transform.up * .1f;
+            spawnedObject.GetComponentInChildren<CarpetManager>().ChangePlacedStatus();
+            placeBtn.SetActive(true);
+            unPlaceBtn.SetActive(false);
+
         }
 
         static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
