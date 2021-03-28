@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using UnityEngine.UI;
 
 namespace UnityEngine.XR.ARFoundation.Samples
 {
@@ -22,9 +23,15 @@ namespace UnityEngine.XR.ARFoundation.Samples
         GameObject placeBtn;
         [SerializeField]
         GameObject unPlaceBtn;
+        [SerializeField]
+        Text debugText;
 
         private bool isBlockTouchPosition = false;
         private Vector3 objectHitPositin;
+
+        public float initialFingersDistance;
+        public Vector3 initialScale;
+        private static Transform ScaleTransform;
 
         /// <summary>
         /// The prefab to instantiate on touch.
@@ -45,6 +52,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
             m_RaycastManager = GetComponent<ARRaycastManager>();
         }
 
+        private void OnEnable()
+        {
+            Application.logMessageReceived += Log;
+        }
         bool TryGetTouchPosition(out Vector2 touchPosition)
         {
             if (Input.touchCount > 0)
@@ -67,6 +78,50 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             if (touchPosition.y < Screen.height * 0.1f)
                 return;
+
+
+
+            //// For scaling and rotation
+            if (placeBtn.activeSelf)
+            {
+                int fingersOnScreen = 0;
+
+                foreach (Touch touch in Input.touches)
+                {
+                    fingersOnScreen++; //Count fingers (or rather touches) on screen as you iterate through all screen touches.
+
+                    //You need two fingers on screen to pinch.
+                    if (fingersOnScreen == 2)
+                    {
+
+                        //First set the initial distance between fingers so you can compare.
+                        if (touch.phase == TouchPhase.Began)
+                        {
+                            initialFingersDistance = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
+                            initialScale = spawnedObject.transform.localScale;
+                        }
+                        else
+                        {
+                            float currentFingersDistance = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
+
+                            float scaleFactor = currentFingersDistance / initialFingersDistance;
+
+                            //transform.localScale = initialScale * scaleFactor;
+                            spawnedObject.transform.localScale = initialScale * scaleFactor;
+
+
+                            //// rotation 
+                            Vector3 diff = Input.touches[1].position - Input.touches[0].position;
+                            float angle = (Mathf.Atan2(diff.y, diff.x));
+                            spawnedObject.transform.rotation = Quaternion.Euler(0f, -1.0f * Mathf.Rad2Deg * angle, 0f);
+                        }
+                        return;
+                    }
+                }
+            }
+
+
+
 
             if (m_RaycastManager.Raycast(touchPosition, s_Hits, TrackableType.PlaneWithinPolygon))
             {
@@ -92,11 +147,16 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         public void PlaceObject()
         {
+            
             isBlockTouchPosition = true;
             spawnedObject.transform.position = objectHitPositin;
             spawnedObject.GetComponentInChildren<CarpetManager>().PlaceObject();
             placeBtn.SetActive(false);
             unPlaceBtn.SetActive(true);
+
+            Debug.Log(spawnedObject.GetComponentInChildren<Transform>().localPosition.ToString());
+            //debugText.text = myLog;
+
         }
 
         public void UnPlaceObject()
@@ -107,6 +167,20 @@ namespace UnityEngine.XR.ARFoundation.Samples
             placeBtn.SetActive(true);
             unPlaceBtn.SetActive(false);
 
+        }
+
+        static string myLog = "";
+        private string output;
+        private string stack;
+        public void Log(string logString, string stackTrace, LogType type)
+        {
+            output = logString;
+            stack = stackTrace;
+            myLog = output + "\n" + myLog;
+            if (myLog.Length > 5000)
+            {
+                myLog = myLog.Substring(0, 4000);
+            }
         }
 
         static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
