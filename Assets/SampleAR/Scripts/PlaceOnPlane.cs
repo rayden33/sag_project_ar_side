@@ -149,12 +149,12 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             
             isBlockTouchPosition = true;
-            spawnedObject.transform.position = objectHitPositin;
             spawnedObject.GetComponentInChildren<CarpetManager>().PlaceObject();
+            spawnedObject.transform.position = objectHitPositin;
             placeBtn.SetActive(false);
             unPlaceBtn.SetActive(true);
 
-            Debug.Log(spawnedObject.GetComponentInChildren<Transform>().localPosition.ToString());
+            //Debug.Log(spawnedObject.GetComponentInChildren<Transform>().localPosition.ToString());
             //debugText.text = myLog;
 
         }
@@ -162,8 +162,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
         public void UnPlaceObject()
         {
             isBlockTouchPosition = false;
-            spawnedObject.transform.position += spawnedObject.transform.up * .1f;
             spawnedObject.GetComponentInChildren<CarpetManager>().ChangePlacedStatus();
+            spawnedObject.transform.position += spawnedObject.transform.up * .1f;
             placeBtn.SetActive(true);
             unPlaceBtn.SetActive(false);
 

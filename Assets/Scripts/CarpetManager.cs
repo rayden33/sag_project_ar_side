@@ -36,8 +36,11 @@ public class CarpetManager : MonoBehaviour
     public void PlaceObject()
     {
         //transform.parent.transform.position += transform.parent.transform.up * -.1f;
-        transform.localPosition.Set(0, 0, 0);
+        isMovingUp = false;
         isPlaced = true;
+        transform.Translate(Vector3.down * Time.deltaTime * (movingSpeed / 100.0f));
+        transform.localPosition.Set(0, 0, 0);
+        
     }
     public void ChangePlacedStatus()
     {
