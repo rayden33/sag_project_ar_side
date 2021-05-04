@@ -20,6 +20,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
         [Tooltip("Instantiates this prefab on a plane at the touch location.")]
         GameObject m_PlacedPrefab;
         [SerializeField]
+        GameObject carpetShadowPrefab;
+        [SerializeField]
         GameObject placeBtn;
         [SerializeField]
         GameObject unPlaceBtn;
@@ -29,9 +31,14 @@ namespace UnityEngine.XR.ARFoundation.Samples
         private bool isBlockTouchPosition = false;
         private Vector3 objectHitPositin;
 
+        [HideInInspector]
         public float initialFingersDistance;
+        [HideInInspector]
         public Vector3 initialScale;
         private static Transform ScaleTransform;
+
+        Ray ray;
+        RaycastHit hitObject;
 
         /// <summary>
         /// The prefab to instantiate on touch.
@@ -46,6 +53,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         /// The object instantiated as a result of a successful raycast intersection with a plane.
         /// </summary>
         public GameObject spawnedObject { get; private set; }
+        public GameObject shadowObject { get; private set; }
 
         void Awake()
         {
@@ -122,8 +130,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
 
 
-
-            if (m_RaycastManager.Raycast(touchPosition, s_Hits, TrackableType.PlaneWithinPolygon))
+            
+            if (m_RaycastManager.Raycast(touchPosition, s_Hits, TrackableType.PlaneWithinPolygon ))
             {
                 // Raycast hits are sorted by distance, so the first one
                 // will be the closest hit.
@@ -135,12 +143,15 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     spawnedObject.transform.position += spawnedObject.transform.up * .1f;
                     placeBtn.SetActive(true);
                     objectHitPositin = hitPose.position;
+                    shadowObject = Instantiate(carpetShadowPrefab, hitPose.position, hitPose.rotation);
+
                 }
                 else
                 {
                     spawnedObject.transform.position = hitPose.position;
                     spawnedObject.transform.position += spawnedObject.transform.up * .1f;
                     objectHitPositin = hitPose.position;
+                    shadowObject.transform.position = hitPose.position;
                 }
             }
         }
@@ -150,6 +161,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             
             isBlockTouchPosition = true;
             spawnedObject.GetComponentInChildren<CarpetManager>().PlaceObject();
+            spawnedObject.GetComponentInChildren<CarpetShadowController>().PlaceCarpet();
             spawnedObject.transform.position = objectHitPositin;
             placeBtn.SetActive(false);
             unPlaceBtn.SetActive(true);
@@ -163,6 +175,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             isBlockTouchPosition = false;
             spawnedObject.GetComponentInChildren<CarpetManager>().ChangePlacedStatus();
+            spawnedObject.GetComponentInChildren<CarpetShadowController>().UnPlaceCarpet();
             spawnedObject.transform.position += spawnedObject.transform.up * .1f;
             placeBtn.SetActive(true);
             unPlaceBtn.SetActive(false);
