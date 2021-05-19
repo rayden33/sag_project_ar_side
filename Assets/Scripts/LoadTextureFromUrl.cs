@@ -2,44 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class GetCarpetInfo : MonoBehaviour
+public class LoadTextureFromURL : MonoBehaviour
 {
-    [SerializeField] private GameObject CarpetShadowGo;
-    
-    // Start is called before the first frame update
+
     public string TextureURL = "";
 
     // Start is called before the first frame update
     void Start()
     {
-        //carpetInfoTxt.text = PlayerPrefs.GetString("carpet_name");
-        TextureURL = HostConfig.MainHostUrl + PlayerPrefs.GetString("carpet_avatar");
         StartCoroutine(DownloadImage(TextureURL));
     }
 
     // Update is called once per frame
-    private void Update()
+    void Update()
     {
-        
-        // Make sure user is on Android platform
-        if (Application.platform == RuntimePlatform.Android)
-        {
 
-            // Check if Back was pressed this frame
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                SceneManager.LoadScene(0);
-            }
-        }
-        
     }
 
     IEnumerator DownloadImage(string uri)
     {
-        using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(uri))
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
@@ -59,9 +42,6 @@ public class GetCarpetInfo : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     this.gameObject.GetComponent<Renderer>().material.mainTexture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
-                    CarpetShadowGo.GetComponent<Renderer>().material.mainTexture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
-                    //CarpetShadowGo.GetComponent<Renderer>().material.renderQueue = Bla
-                    CarpetShadowGo.GetComponent<Renderer>().material.color = Color.black;
                     break;
             }
         }

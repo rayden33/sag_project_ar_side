@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 3253674857694087536}
   - component: {fileID: 89677475507923555}
   - component: {fileID: 4777758116250744293}
+  - component: {fileID: 1080978598482386221}
   m_Layer: 0
   m_Name: SelfC
   m_TagString: Untagged
@@ -271,3 +272,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1080978598482386221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447041414976512916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7916fc2a20b61f94686f814bf2c5bdd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CarpetShadowGo: {fileID: 4702210680311085676}
+  TextureURL: 
