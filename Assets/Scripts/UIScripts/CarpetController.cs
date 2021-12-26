@@ -26,8 +26,8 @@ public class CarpetController : MonoBehaviour
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, 278);
 
         ContentText.text = carpet.serial_number;
-        if (carpet.avatar != null)
-            TextureURL = HostConfig.MainHostUrl + carpet.avatar;
+        if (carpet.avatar_url != null)
+            TextureURL = HostConfig.MainHostUrl + carpet.avatar_url;
         //TextureURL = HostConfig.HostUrl + "images/abc.png";
         StartCoroutine(DownloadImage(TextureURL));
         Debug.Log(TextureURL);

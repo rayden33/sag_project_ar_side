@@ -29,9 +29,9 @@ public class CollectionController : MonoBehaviour
         RectTransform rt = this.GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, 620);
 
-        ContentText.text = collection.name_en;
-        if (collection.avatar != null)
-            TextureURL = HostConfig.MainHostUrl + collection.avatar;
+        ContentText.text = collection.name;
+        if (collection.img_link != null)
+            TextureURL = HostConfig.MainHostUrl + collection.img_link;
         //TextureURL = HostConfig.HostUrl + "images/abc.png";
         StartCoroutine(DownloadImage(TextureURL));
         Debug.Log(TextureURL);

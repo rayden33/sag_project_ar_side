@@ -5,7 +5,13 @@ using UnityEngine.Networking;
 
 public class GetRequestToServer : MonoBehaviour
 {
+    public enum WebRequestResponseCodeType
+    {
+        SUCCESS = 0,
+        ERROR = 1,
+    }
     public string Response { get; set; }
+    public WebRequestResponseCodeType ResponseCode { get; set; }        
 
     void Start()
     {
@@ -32,6 +38,7 @@ public class GetRequestToServer : MonoBehaviour
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
+            webRequest.timeout = 5;
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
 
@@ -42,14 +49,17 @@ public class GetRequestToServer : MonoBehaviour
                 case UnityWebRequest.Result.ConnectionError:
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError(pages[page] + ": Error: " + webRequest.error);
+                    ResponseCode = WebRequestResponseCodeType.ERROR;
                     Response = webRequest.error;
                     break;
                 case UnityWebRequest.Result.ProtocolError:
                     Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
+                    ResponseCode = WebRequestResponseCodeType.ERROR;
                     Response = webRequest.error;
                     break;
                 case UnityWebRequest.Result.Success:
                     Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
+                    ResponseCode = WebRequestResponseCodeType.SUCCESS;
                     Response = webRequest.downloadHandler.text;
                     break;
             }

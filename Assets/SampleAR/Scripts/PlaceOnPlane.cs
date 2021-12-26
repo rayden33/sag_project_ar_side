@@ -27,6 +27,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
         GameObject unPlaceBtn;
         [SerializeField]
         Text debugText;
+        [SerializeField]
+        float waitSecondsForMove = 0.3f;
 
         private bool isBlockTouchPosition = false;
         private Vector3 objectHitPositin;
@@ -36,9 +38,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
         [HideInInspector]
         public Vector3 initialScale;
         private static Transform ScaleTransform;
-
-        Ray ray;
-        RaycastHit hitObject;
+        private float timerF = 0;
+        private bool isVibrated = false;
 
         /// <summary>
         /// The prefab to instantiate on touch.
@@ -78,11 +79,19 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         void Update()
         {
+
+
+
+
             if (isBlockTouchPosition)
                 return;
 
             if (!TryGetTouchPosition(out Vector2 touchPosition))
+            {
+                timerF = 0f;
+                isVibrated = false;
                 return;
+            }
 
             if (touchPosition.y < Screen.height * 0.1f)
                 return;
@@ -93,6 +102,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             if (placeBtn.activeSelf)
             {
                 int fingersOnScreen = 0;
+                float firstYRotationPos = 0;
 
                 foreach (Touch touch in Input.touches)
                 {
@@ -107,6 +117,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
                         {
                             initialFingersDistance = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
                             initialScale = spawnedObject.transform.localScale;
+
+                            firstYRotationPos = spawnedObject.transform.rotation.y;
                         }
                         else
                         {
@@ -121,7 +133,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
                             //// rotation 
                             Vector3 diff = Input.touches[1].position - Input.touches[0].position;
                             float angle = (Mathf.Atan2(diff.y, diff.x));
-                            spawnedObject.transform.rotation = Quaternion.Euler(0f, -1.0f * Mathf.Rad2Deg * angle, 0f);
+                            spawnedObject.transform.rotation = Quaternion.Euler(0f, firstYRotationPos + (-1.0f * Mathf.Rad2Deg * angle), 0f);
+                            //spawnedObject.transform.Rotate(0f, -1.0f * Mathf.Rad2Deg * angle, 0f);
                         }
                         return;
                     }
@@ -148,6 +161,16 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 }
                 else
                 {
+                    if(timerF < waitSecondsForMove)
+                    {
+                        timerF += Time.deltaTime;
+                        return;
+                    }
+                    if(!isVibrated)
+                    {
+                        AndroidManager.HapticFeedback();
+                        isVibrated = true;
+                    }
                     spawnedObject.transform.position = hitPose.position;
                     spawnedObject.transform.position += spawnedObject.transform.up * .1f;
                     objectHitPositin = hitPose.position;

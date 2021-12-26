@@ -28,10 +28,12 @@ public class ByStyleScreenController : MonoBehaviour
         List<KeyValuePair<string, string>> getParams = new List<KeyValuePair<string, string>>();
         getParams.Add(new KeyValuePair<string, string>("category_type", "style"));
         getRequestToServer.RequestToServerAPI("get-categories", getParams);
-        while (getRequestToServer.Response == null)
+        while (getRequestToServer.Response == null && getRequestToServer.ResponseCode != GetRequestToServer.WebRequestResponseCodeType.ERROR)
             await Task.Yield();
         Debug.Log(getRequestToServer.Response);
 
+        if (getRequestToServer.ResponseCode == GetRequestToServer.WebRequestResponseCodeType.ERROR)
+            LoadingScreenGo.SetActive(false);
         List<Category> categories = new List<Category>();
         categories.AddRange(JsonHelper.FromJson<Category>(getRequestToServer.Response));
         /*List<Category> categories1 = new List<Category>();

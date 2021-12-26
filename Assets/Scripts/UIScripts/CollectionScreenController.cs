@@ -39,8 +39,7 @@ public class CollectionScreenController : MonoBehaviour
 
         List<Collection> collections = new List<Collection>();
         collections.AddRange(JsonHelper.FromJson<Collection>(getRequestToServer.Response));
-        /*List<Category> categories1 = new List<Category>();
-        categories1.AddRange(JsonHelper.FromJson<Category>(getRequestToServer.Response));*/
+
         GenerateCollectionList(collections);
         //LoadingScreenGo.SetActive(false);
         getRequestToServer.Response = null;
@@ -49,6 +48,7 @@ public class CollectionScreenController : MonoBehaviour
 
     private void GenerateCollectionList(List<Collection> collections)
     {
+        int activeCollectionCount = 0;
         GameObject tmpCollectionGo;
         /// Destroy all children
         foreach (Transform child in ParentViewPortGo.transform)
@@ -57,11 +57,16 @@ public class CollectionScreenController : MonoBehaviour
         }
         foreach (Collection collection  in collections)
         {
+            if (collection.status == 0)
+                continue;
             tmpCollectionGo = Instantiate(CollectionPrefab, ParentViewPortGo.transform);
             CollectionController collectionController = tmpCollectionGo.GetComponent<CollectionController>();
             collectionController.LoadingScreen = LoadingScreenGo;
             collectionController.CarpetListGo = CarpetListGo;
             collectionController.FillContent(RoomCategoryId, StyleCategoryId, collection);
+            activeCollectionCount++;
         }
+        if (activeCollectionCount == 0)
+            LoadingScreenGo.SetActive(false);
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 public class Collection 
 {
     public int collection_id;
-    public string name_en;
-    public string avatar;
-
+    public string name;
+    public string img_link;
+    public int status;
 }

@@ -8,7 +8,7 @@ public class Carpet
 {
     public string id;
     public string serial_number;
-    public string avatar;
+    public string avatar_url;
     /*public string collection_name;
     public string density;
     public string base1;
