@@ -63,7 +63,7 @@ public class CollectionScreenController : MonoBehaviour
             CollectionController collectionController = tmpCollectionGo.GetComponent<CollectionController>();
             collectionController.LoadingScreen = LoadingScreenGo;
             collectionController.CarpetListGo = CarpetListGo;
-            collectionController.FillContent(RoomCategoryId, StyleCategoryId, collection);
+            collectionController.FillContent(collection);
             activeCollectionCount++;
         }
         if (activeCollectionCount == 0)

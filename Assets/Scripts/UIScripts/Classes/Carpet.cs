@@ -9,6 +9,8 @@ public class Carpet
     public string id;
     public string serial_number;
     public string avatar_url;
+    public string carpet_order_url;
+    public int is_in_main;
     /*public string collection_name;
     public string density;
     public string base1;

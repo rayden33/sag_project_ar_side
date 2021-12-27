@@ -47,11 +47,7 @@ public class ChangeMainScreen : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            if (ActionScreensGo[7].activeInHierarchy)    /// When now open carpet order screen
-            {
-                ActionScreensGo[7].SetActive(false);
-            }
-            else if (ActionScreensGo[3].activeInHierarchy)    /// When now open carpet details screen
+            if (ActionScreensGo[3].activeInHierarchy)    /// When now open carpet details screen
             {
                 ActionScreensGo[3].SetActive(false);
             }

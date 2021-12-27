@@ -11,7 +11,7 @@ public class ARSceneManager : MonoBehaviour
     void Start()
     {
         string carpetName = PlayerPrefs.GetString("carpet_name");
-        string carpetPrice = "1000000000";
+        string carpetPrice = PlayerPrefs.GetString("collection_price");
         CarpetInfoTxt.text = $"Name: {carpetName}\nPrice: {carpetPrice} UZS";
     }
 
@@ -20,7 +20,7 @@ public class ARSceneManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            SceneManager.LoadScene(0);
+            //SceneManager.LoadScene(0);
         }
     }
 }

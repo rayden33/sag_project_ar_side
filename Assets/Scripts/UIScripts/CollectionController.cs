@@ -21,10 +21,10 @@ public class CollectionController : MonoBehaviour
 
     private string TextureURL = "";
 
-    public void FillContent(string roomCategoryId, string styleCategoryId, Collection collection)
+    public void FillContent(Collection collection)
     {
-        RoomCategoryId = roomCategoryId;
-        StyleCategoryId = styleCategoryId;
+        RoomCategoryId = collection.by_room_cat_id.ToString();
+        StyleCategoryId = collection.by_style_cat_id.ToString();
         Collection = collection;
         RectTransform rt = this.GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, 620);

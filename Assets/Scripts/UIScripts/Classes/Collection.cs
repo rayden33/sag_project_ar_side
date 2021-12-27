@@ -10,4 +10,7 @@ public class Collection
     public string name;
     public string img_link;
     public int status;
+    public int price;
+    public int by_room_cat_id;
+    public int by_style_cat_id;
 }

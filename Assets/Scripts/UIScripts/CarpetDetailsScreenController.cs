@@ -10,7 +10,7 @@ public class CarpetDetailsScreenController : MonoBehaviour
     [SerializeField] private GameObject LoadingScreenGo;
     [SerializeField] private Text carpetNameTxt;
     [SerializeField] private Image carpetImage;
-    [SerializeField]public GameObject CarpetOrderGo;
+    [SerializeField] private Button buyButton;
 
     private string TextureURL = "";
     public Carpet Carpet { get; set; }
@@ -30,6 +30,8 @@ public class CarpetDetailsScreenController : MonoBehaviour
     {
         carpetNameTxt.text = Carpet.serial_number;
 
+        if (!string.IsNullOrEmpty(Carpet.carpet_order_url))
+            buyButton.interactable = true;
         
         if (Carpet.avatar_url != null)
             TextureURL = HostConfig.MainHostUrl + Carpet.avatar_url;
@@ -86,10 +88,8 @@ public class CarpetDetailsScreenController : MonoBehaviour
 
     public void OpenCarpetOrder()
     {
-        CarpetOrderScreenController cosc = CarpetOrderGo.GetComponent<CarpetOrderScreenController>();
-        cosc.Carpet = Carpet;
-        CarpetOrderGo.SetActive(true);
-        cosc.FillContent();
+        if(!string.IsNullOrEmpty(Carpet.carpet_order_url))
+            Application.OpenURL(Carpet.carpet_order_url);
     }
 
 }

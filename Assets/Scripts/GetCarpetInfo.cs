@@ -46,6 +46,7 @@ public class GetCarpetInfo : MonoBehaviour
 
             string[] pages = uri.Split('/');
             int page = pages.Length - 1;
+            float rationX = 1.0f, rationZ = 1.0f;
             switch (webRequest.result)
             {
                 case UnityWebRequest.Result.ConnectionError:
@@ -58,9 +59,12 @@ public class GetCarpetInfo : MonoBehaviour
                     //Response = webRequest.error;
                     break;
                 case UnityWebRequest.Result.Success:
+                    CarpetShadowGo.SetActive(true);
                     this.gameObject.GetComponent<Renderer>().material.mainTexture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
                     CarpetShadowGo.GetComponent<Renderer>().material.mainTexture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
-                    //CarpetShadowGo.GetComponent<Renderer>().material.renderQueue = Bla
+                    rationX = (float)(((DownloadHandlerTexture)webRequest.downloadHandler).texture.width) / (float)(((DownloadHandlerTexture)webRequest.downloadHandler).texture.height);
+                    //rationZ = ((DownloadHandlerTexture)webRequest.downloadHandler).texture.width / ((DownloadHandlerTexture)webRequest.downloadHandler).texture.width;
+                    this.transform.parent.localScale = new Vector3(rationX, 1.0f, rationZ);
                     CarpetShadowGo.GetComponent<Renderer>().material.color = Color.black;
                     break;
             }
