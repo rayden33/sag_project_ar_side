@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class FeaturedScreenController : MonoBehaviour
 {
-    [SerializeField] private GameObject RequestServerManagerGo;
-    [SerializeField] private GameObject RequestServerManagerGo2;
+    [SerializeField] private GameObject RequestServerManagerPrefab;
     [SerializeField] private GameObject CarpetPrefab;
     [SerializeField] private GameObject CarpetListParentViewPortGo;
     [SerializeField] private GameObject CollectionPrefab;
@@ -17,7 +16,20 @@ public class FeaturedScreenController : MonoBehaviour
 
     void Start()
     {
-        
+        if(CustomCoreRAM.isReturnFromAR)
+        {
+            CarpetDetailsScreenController cdsc = CarpetDetailsGo.GetComponent<CarpetDetailsScreenController>();
+            CarpetDetailsGo.SetActive(true);
+        }
+        else
+            customSystemInit();
+    }
+
+    private void customSystemInit()
+    {
+        CustomCoreRAM.selectedCarpet = new Carpet();
+        CustomCoreRAM.selectedCategory = new Category();
+        CustomCoreRAM.selectedCollection = new Collection();
     }
 
     private void OnEnable()
@@ -44,20 +56,22 @@ public class FeaturedScreenController : MonoBehaviour
 
     private async void LoadMainCarpetsFromServer()
     {
-        GetRequestToServer getRequestToServer = RequestServerManagerGo.GetComponent<GetRequestToServer>();
+        GameObject requestServerManagerGo = Instantiate(RequestServerManagerPrefab);
+        GetRequestToServer getRequestToServer = requestServerManagerGo.GetComponent<GetRequestToServer>();
+        //GetRequestToServer getRequestToServer = new GetRequestToServer();
         List<KeyValuePair<string, string>> getParams = new List<KeyValuePair<string, string>>();
         getRequestToServer.RequestToServerAPI("get-main-carpets", getParams);
         while (getRequestToServer.Response == null)
             await Task.Yield();
         Debug.Log(getRequestToServer.Response);
 
-        List<Carpet> carpets = new List<Carpet>();
-        carpets.AddRange(JsonHelper.FromJson<Carpet>(getRequestToServer.Response));
-        GenerateCarpetList(carpets);
+        List<CarpetBasicInfo> carpetBasicInfos = new List<CarpetBasicInfo>();
+        carpetBasicInfos.AddRange(JsonHelper.FromJson<CarpetBasicInfo>(getRequestToServer.Response));
+        GenerateCarpetList(carpetBasicInfos);
         getRequestToServer.Response = null;
     }
 
-    private void GenerateCarpetList(List<Carpet> carpets)
+    private void GenerateCarpetList(List<CarpetBasicInfo> carpetBasicInfos)
     {
         Debug.Log("Hello");
         GameObject tmpCarpetGo;
@@ -66,37 +80,39 @@ public class FeaturedScreenController : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);
         }
-        foreach (Carpet carpet in carpets)
+        foreach (CarpetBasicInfo carpetBasicInfo in carpetBasicInfos)
         {
             tmpCarpetGo = Instantiate(CarpetPrefab, CarpetListParentViewPortGo.transform);
             CarpetController carpetController = tmpCarpetGo.GetComponent<CarpetController>();
             carpetController.LoadingScreen = LoadingScreenGo;
             carpetController.CarpetDetailsGo = CarpetDetailsGo;
-            Debug.Log("Hekllo2");
-            carpetController.FillContent(carpet);
+            Debug.Log(carpetBasicInfo.id + "Hellkoooo");
+            carpetController.FillContent(carpetBasicInfo);
         }
     }
 
 
     private async void LoadMainCollectionsFromServer()
     {
-        GetRequestToServer getRequestToServer = RequestServerManagerGo2.GetComponent<GetRequestToServer>();
+        GameObject requestServerManagerGo = Instantiate(RequestServerManagerPrefab);
+        GetRequestToServer getRequestToServer = requestServerManagerGo.GetComponent<GetRequestToServer>();
+        //GetRequestToServer getRequestToServer = new GetRequestToServer();
         List<KeyValuePair<string, string>> getParams = new List<KeyValuePair<string, string>>();
         getRequestToServer.RequestToServerAPI("get-collections", getParams);
         while (getRequestToServer.Response == null)
             await Task.Yield();
         Debug.Log(getRequestToServer.Response);
 
-        List<Collection> collections = new List<Collection>();
-        collections.AddRange(JsonHelper.FromJson<Collection>(getRequestToServer.Response));
+        List<CollectionBasicInfo> collectionBasicInfos = new List<CollectionBasicInfo>();
+        collectionBasicInfos.AddRange(JsonHelper.FromJson<CollectionBasicInfo>(getRequestToServer.Response));
 
-        GenerateCollectionList(collections);
+        GenerateCollectionList(collectionBasicInfos);
         //LoadingScreenGo.SetActive(false);
         getRequestToServer.Response = null;
     }
 
 
-    private void GenerateCollectionList(List<Collection> collections)
+    private void GenerateCollectionList(List<CollectionBasicInfo> collectionBasicInfos)
     {
         int activeCollectionCount = 0;
         GameObject tmpCollectionGo;
@@ -105,18 +121,20 @@ public class FeaturedScreenController : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);
         }
-        foreach (Collection collection in collections)
+        foreach (CollectionBasicInfo collectionBasicInfo in collectionBasicInfos)
         {
-            if (collection.status == 0)
+            if (collectionBasicInfo.status == 0)
                 continue;
             tmpCollectionGo = Instantiate(CollectionPrefab, CollectionParentViewPortGo.transform);
             CollectionController collectionController = tmpCollectionGo.GetComponent<CollectionController>();
             collectionController.LoadingScreen = LoadingScreenGo;
             collectionController.CarpetListGo = CarpetListGo;
-            collectionController.FillContent(collection);
+            collectionController.FillContent(collectionBasicInfo);
             activeCollectionCount++;
         }
         if (activeCollectionCount == 0)
             LoadingScreenGo.SetActive(false);
     }
+
+    
 }

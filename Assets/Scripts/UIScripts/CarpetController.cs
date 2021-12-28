@@ -14,28 +14,30 @@ public class CarpetController : MonoBehaviour
     public GameObject LoadingScreen;
     public GameObject CarpetDetailsGo;
 
-    public Carpet Carpet { get; private set; }
+    public CarpetBasicInfo CarpetBasicInfo { get; private set; }
 
 
     private string TextureURL = "";
 
-    public void FillContent(Carpet carpet)
+    public void FillContent(CarpetBasicInfo carpetBasicInfo)
     {
-        Carpet = carpet;
+        CarpetBasicInfo = carpetBasicInfo;
         RectTransform rt = this.GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, 278);
 
-        ContentText.text = carpet.serial_number;
-        if (carpet.avatar_url != null)
-            TextureURL = HostConfig.MainHostUrl + carpet.avatar_url;
+        ContentText.text = CarpetBasicInfo.serial_number;
+        if (CarpetBasicInfo.avatar_url != null)
+            TextureURL = HostConfig.MainHostUrl + CarpetBasicInfo.avatar_url;
         //TextureURL = HostConfig.HostUrl + "images/abc.png";
         StartCoroutine(DownloadImage(TextureURL));
         Debug.Log(TextureURL);
     }
+
     public void OpenCarpetDetails()
     {
         CarpetDetailsScreenController cdsc = CarpetDetailsGo.GetComponent<CarpetDetailsScreenController>();
-        cdsc.Carpet = Carpet;
+        Debug.Log(CarpetBasicInfo.id);
+        CustomCoreRAM.selectedCarpet.id = CarpetBasicInfo.id;
         CarpetDetailsGo.SetActive(true);
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,8 +11,8 @@ public class ARSceneManager : MonoBehaviour
     public Text CarpetInfoTxt;
     void Start()
     {
-        string carpetName = PlayerPrefs.GetString("carpet_name");
-        string carpetPrice = PlayerPrefs.GetString("collection_price");
+        string carpetName = CustomCoreRAM.selectedCarpetDetails.serial_number;
+        string carpetPrice = CustomCoreRAM.selectedCarpetDetails.price.ToString("N", CultureInfo.CreateSpecificCulture("sv-SE"));
         CarpetInfoTxt.text = $"Name: {carpetName}\nPrice: {carpetPrice} UZS";
     }
 
@@ -20,7 +21,14 @@ public class ARSceneManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            //SceneManager.LoadScene(0);
+            CustomCoreRAM.isReturnFromAR = true;
+            SceneManager.LoadScene(0);
         }
+    }
+
+    public void GoToCarpetDetails()
+    {
+        CustomCoreRAM.isReturnFromAR = true;
+        SceneManager.LoadScene(0);
     }
 }

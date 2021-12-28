@@ -16,22 +16,22 @@ public class CollectionController : MonoBehaviour
 
     public string RoomCategoryId { get; private set; }
     public string StyleCategoryId { get; private set; }
-    public Collection Collection { get; private set; }
+    public CollectionBasicInfo CollectionBasicInfo { get; private set; }
 
 
     private string TextureURL = "";
 
-    public void FillContent(Collection collection)
+    public void FillContent(CollectionBasicInfo collectionBasicInfo)
     {
-        RoomCategoryId = collection.by_room_cat_id.ToString();
-        StyleCategoryId = collection.by_style_cat_id.ToString();
-        Collection = collection;
+        RoomCategoryId = collectionBasicInfo.by_room_cat_id.ToString();
+        StyleCategoryId = collectionBasicInfo.by_style_cat_id.ToString();
+        CollectionBasicInfo = collectionBasicInfo;
         RectTransform rt = this.GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, 620);
 
-        ContentText.text = collection.name;
-        if (collection.img_link != null)
-            TextureURL = HostConfig.MainHostUrl + collection.img_link;
+        ContentText.text = collectionBasicInfo.name;
+        if (collectionBasicInfo.img_link != null)
+            TextureURL = HostConfig.MainHostUrl + collectionBasicInfo.img_link;
         //TextureURL = HostConfig.HostUrl + "images/abc.png";
         StartCoroutine(DownloadImage(TextureURL));
         Debug.Log(TextureURL);
@@ -42,7 +42,8 @@ public class CollectionController : MonoBehaviour
         CarpetListScreenController clsc = CarpetListGo.GetComponent<CarpetListScreenController>();
         clsc.RoomCategoryId = RoomCategoryId;
         clsc.StyleCategoryId = StyleCategoryId;
-        clsc.CollectionId = Collection.collection_id.ToString();
+        clsc.CollectionId = CollectionBasicInfo.collection_id.ToString();
+        CustomCoreRAM.selectedCollection.id = CollectionBasicInfo.collection_id;
         CarpetListGo.SetActive(true);
     }
 

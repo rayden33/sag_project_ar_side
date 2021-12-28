@@ -6,11 +6,18 @@ using UnityEngine;
 [Serializable]
 public class Collection 
 {
-    public int collection_id;
+    public int id;
     public string name;
+    public string density;
+    public string collection_base;
+    public string pile_height;
+    public string pile_yarn;
+    public string yarn_composition;
+    public string weight;
+    public string edging;
+    public string design;
+    public string maintenance;
     public string img_link;
     public int status;
     public int price;
-    public int by_room_cat_id;
-    public int by_style_cat_id;
 }

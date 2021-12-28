@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ByRoomScreenController : MonoBehaviour
 {
-    [SerializeField] private GameObject RequestServerManagerGo;
+    [SerializeField] private GameObject RequestServerManagerPrefab;
     [SerializeField] private GameObject RoomCategoryPrefab;
     [SerializeField] private GameObject ParentViewPortGo;
     [SerializeField] private GameObject LoadingScreenGo;
@@ -24,7 +24,8 @@ public class ByRoomScreenController : MonoBehaviour
 
     private async void LoadCategoriesFromServer()
     {
-        GetRequestToServer getRequestToServer = RequestServerManagerGo.GetComponent<GetRequestToServer>();
+        GameObject requestServerManagerGo = Instantiate(RequestServerManagerPrefab);
+        GetRequestToServer getRequestToServer = requestServerManagerGo.GetComponent<GetRequestToServer>();
         List<KeyValuePair<string, string>> getParams = new List<KeyValuePair<string, string>>();
         getParams.Add(new KeyValuePair<string, string>("category_type", "room"));
         getRequestToServer.RequestToServerAPI("get-categories", getParams);

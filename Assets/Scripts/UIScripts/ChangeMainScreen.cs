@@ -27,7 +27,8 @@ public class ChangeMainScreen : MonoBehaviour
     {
         foreach (GameObject item in ActionScreensGo)
         {
-            item.SetActive(false);
+            if(item.name != "FeaturedScreen")
+                item.SetActive(false);
         }
     }
 
@@ -62,12 +63,12 @@ public class ChangeMainScreen : MonoBehaviour
             else if(ActionScreensGo[1].activeInHierarchy)   /// When now open by room screen
             {
                 ActionScreensGo[1].SetActive(false);
-                ActionScreensGo[0].SetActive(true);
+                //ActionScreensGo[0].SetActive(true);
             }
             else if (ActionScreensGo[2].activeInHierarchy)  /// When now open by style screen
             {
                 ActionScreensGo[2].SetActive(false);
-                ActionScreensGo[0].SetActive(true);
+                //ActionScreensGo[0].SetActive(true);
             }
             else
             {

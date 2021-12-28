@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CollectionScreenController : MonoBehaviour
 {
-    [SerializeField] private GameObject RequestServerManagerGo;
+    [SerializeField] private GameObject RequestServerManagerPrefab;
     [SerializeField] private GameObject CollectionPrefab;
     [SerializeField] private GameObject ParentViewPortGo;
     [SerializeField] private GameObject LoadingScreenGo;
@@ -26,7 +26,8 @@ public class CollectionScreenController : MonoBehaviour
 
     private async void LoadCollectionsFromServer()
     {
-        GetRequestToServer getRequestToServer = RequestServerManagerGo.GetComponent<GetRequestToServer>();
+        GameObject requestServerManagerGo = Instantiate(RequestServerManagerPrefab);
+        GetRequestToServer getRequestToServer = requestServerManagerGo.GetComponent<GetRequestToServer>();
         List<KeyValuePair<string, string>> getParams = new List<KeyValuePair<string, string>>();
         if (RoomCategoryId != "0")
             getParams.Add(new KeyValuePair<string, string>("room_cat_id", RoomCategoryId));
@@ -37,16 +38,16 @@ public class CollectionScreenController : MonoBehaviour
             await Task.Yield();
         Debug.Log(getRequestToServer.Response);
 
-        List<Collection> collections = new List<Collection>();
-        collections.AddRange(JsonHelper.FromJson<Collection>(getRequestToServer.Response));
+        List<CollectionBasicInfo> collectionBasicInfos = new List<CollectionBasicInfo>();
+        collectionBasicInfos.AddRange(JsonHelper.FromJson<CollectionBasicInfo>(getRequestToServer.Response));
 
-        GenerateCollectionList(collections);
+        GenerateCollectionList(collectionBasicInfos);
         //LoadingScreenGo.SetActive(false);
         getRequestToServer.Response = null;
     }
 
 
-    private void GenerateCollectionList(List<Collection> collections)
+    private void GenerateCollectionList(List<CollectionBasicInfo> collectionBasicInfos)
     {
         int activeCollectionCount = 0;
         GameObject tmpCollectionGo;
@@ -55,15 +56,15 @@ public class CollectionScreenController : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);
         }
-        foreach (Collection collection  in collections)
+        foreach (CollectionBasicInfo collectionBasicInfo in collectionBasicInfos)
         {
-            if (collection.status == 0)
+            if (collectionBasicInfo.status == 0)
                 continue;
             tmpCollectionGo = Instantiate(CollectionPrefab, ParentViewPortGo.transform);
             CollectionController collectionController = tmpCollectionGo.GetComponent<CollectionController>();
             collectionController.LoadingScreen = LoadingScreenGo;
             collectionController.CarpetListGo = CarpetListGo;
-            collectionController.FillContent(collection);
+            collectionController.FillContent(collectionBasicInfo);
             activeCollectionCount++;
         }
         if (activeCollectionCount == 0)

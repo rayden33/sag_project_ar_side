@@ -1696,7 +1696,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89a936c239386ee4c9536b06f5b9f65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RequestServerManagerGo: {fileID: 1697887510}
+  RequestServerManagerPrefab: {fileID: 6946518238514088189, guid: faed77e1b7414f04fac0a75fc73ff66d,
+    type: 3}
   StyleCategoryPrefab: {fileID: 8308978306214853396, guid: 626a082dbcd3faf4d8cbc923d405f55d,
     type: 3}
   ParentViewPortGo: {fileID: 1292161379}
@@ -2365,7 +2366,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d82a8d6674dc8749aed3a8fa644f322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RequestServerManagerGo: {fileID: 1697887510}
+  RequestServerManagerPrefab: {fileID: 6946518238514088189, guid: faed77e1b7414f04fac0a75fc73ff66d,
+    type: 3}
   RoomCategoryPrefab: {fileID: 6287941126556665617, guid: 1bf1625bc02b0d642814f7460386462e,
     type: 3}
   ParentViewPortGo: {fileID: 1255967957}
@@ -2854,49 +2856,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706393693}
   m_CullTransparentMesh: 0
---- !u!1 &717109612
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 717109614}
-  - component: {fileID: 717109613}
-  m_Layer: 0
-  m_Name: RequestServerController2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &717109613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 717109612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 630ed6f8d087f9b4f82f27afabf71757, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &717109614
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 717109612}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 917.95166, y: 1749.0242, z: -535.18835}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &739521892
 GameObject:
   m_ObjectHideFlags: 0
@@ -3444,7 +3403,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &914231563
 GameObject:
@@ -3777,7 +3736,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1001054137
 GameObject:
@@ -5039,7 +4998,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9edbe767faa98d46b8adfc55717a2d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RequestServerManagerGo: {fileID: 1697887510}
+  RequestServerManagerPrefab: {fileID: 6946518238514088189, guid: faed77e1b7414f04fac0a75fc73ff66d,
+    type: 3}
   CarpetPrefab: {fileID: 5064903535513166027, guid: 20352abcc5d10fc4fa138eec1ab42ab0,
     type: 3}
   ParentViewPortGo: {fileID: 192175485}
@@ -5185,7 +5145,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1449505550
 GameObject:
@@ -5288,7 +5248,7 @@ RectTransform:
   - {fileID: 1549831768}
   - {fileID: 840190015}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6067,49 +6027,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1675173023}
   m_CullTransparentMesh: 0
---- !u!1 &1697887510
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1697887511}
-  - component: {fileID: 1697887512}
-  m_Layer: 0
-  m_Name: RequestServerController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1697887511
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697887510}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 917.95166, y: 1749.0242, z: -535.18835}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1697887512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697887510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 630ed6f8d087f9b4f82f27afabf71757, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1728978801
 GameObject:
   m_ObjectHideFlags: 0
@@ -6406,8 +6323,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 757dab7dcccf24b4c8f7cae22e478c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RequestServerManagerPrefab: {fileID: 6946518238514088189, guid: faed77e1b7414f04fac0a75fc73ff66d,
+    type: 3}
   LoadingScreenGo: {fileID: 840190012}
+  carpetTypeTxt: {fileID: 706393695}
   carpetNameTxt: {fileID: 1873680224}
+  carpetPriceTxt: {fileID: 474840652}
+  carpetDensityTxt: {fileID: 1218846697}
+  carpetBaseTxt: {fileID: 209805332}
+  carpetPileHTxt: {fileID: 76434810}
+  carpetPileYTxt: {fileID: 88809292}
+  carpetYarnCTxt: {fileID: 461521570}
+  carpetWeightTxt: {fileID: 46957774}
+  carpetEdgingTxt: {fileID: 1334376630}
   carpetImage: {fileID: 671712211}
   buyButton: {fileID: 351716804}
 --- !u!1 &1806587943
@@ -6541,8 +6469,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a7824a5650a1247b664bd87755e280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RequestServerManagerGo: {fileID: 1697887510}
-  RequestServerManagerGo2: {fileID: 717109612}
+  RequestServerManagerPrefab: {fileID: 6946518238514088189, guid: faed77e1b7414f04fac0a75fc73ff66d,
+    type: 3}
   CarpetPrefab: {fileID: 2384687038003073624, guid: 9072f300cbd2b0f4580f4926967647d6,
     type: 3}
   CarpetListParentViewPortGo: {fileID: 1163985545}
@@ -7029,7 +6957,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5254d6721bd16a479588fedb318127b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RequestServerManagerGo: {fileID: 1697887510}
+  RequestServerManagerPrefab: {fileID: 6946518238514088189, guid: faed77e1b7414f04fac0a75fc73ff66d,
+    type: 3}
   CollectionPrefab: {fileID: 3362897525094335572, guid: cdcef93f31f06924bb5f3ebc0c824203,
     type: 3}
   ParentViewPortGo: {fileID: 1569498243}
@@ -7211,3 +7140,72 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1001 &6946518239133580779
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6946518238514088188, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946518238514088188, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 917.95166
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946518238514088188, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1749.0242
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946518238514088188, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -535.18835
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946518238514088188, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946518238514088188, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946518238514088188, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946518238514088188, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946518238514088188, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946518238514088188, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946518238514088188, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6946518238514088189, guid: faed77e1b7414f04fac0a75fc73ff66d,
+        type: 3}
+      propertyPath: m_Name
+      value: RequestServerController
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: faed77e1b7414f04fac0a75fc73ff66d, type: 3}

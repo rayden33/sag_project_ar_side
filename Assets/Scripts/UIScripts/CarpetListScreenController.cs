@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CarpetListScreenController : MonoBehaviour
 {
-    [SerializeField] private GameObject RequestServerManagerGo;
+    [SerializeField] private GameObject RequestServerManagerPrefab;
     [SerializeField] private GameObject CarpetPrefab;
     [SerializeField] private GameObject ParentViewPortGo;
     [SerializeField] private GameObject LoadingScreenGo;
@@ -13,6 +13,7 @@ public class CarpetListScreenController : MonoBehaviour
     public string RoomCategoryId = "0";
     public string StyleCategoryId = "0";
     public string CollectionId;
+    public Collection Collection { get; private set; }
     void Start()
     {
 
@@ -25,9 +26,13 @@ public class CarpetListScreenController : MonoBehaviour
         LoadCarpetsFromServer();
     }
 
+
+   
+
     private async void LoadCarpetsFromServer()
     {
-        GetRequestToServer getRequestToServer = RequestServerManagerGo.GetComponent<GetRequestToServer>();
+        GameObject requestServerManagerGo = Instantiate(RequestServerManagerPrefab);
+        GetRequestToServer getRequestToServer = requestServerManagerGo.GetComponent<GetRequestToServer>();
         List<KeyValuePair<string, string>> getParams = new List<KeyValuePair<string, string>>();
         if (RoomCategoryId != "0")
             getParams.Add(new KeyValuePair<string, string>("room_cat_id", RoomCategoryId));
@@ -39,17 +44,17 @@ public class CarpetListScreenController : MonoBehaviour
             await Task.Yield();
         Debug.Log(getRequestToServer.Response);
 
-        List<Carpet> carpets = new List<Carpet>();
-        carpets.AddRange(JsonHelper.FromJson<Carpet>(getRequestToServer.Response));
+        List<CarpetBasicInfo> carpetBasicInfos = new List<CarpetBasicInfo>();
+        carpetBasicInfos.AddRange(JsonHelper.FromJson<CarpetBasicInfo>(getRequestToServer.Response));
         /*List<Category> categories1 = new List<Category>();
         categories1.AddRange(JsonHelper.FromJson<Category>(getRequestToServer.Response));*/
-        GenerateCarpetList(carpets);
+        GenerateCarpetList(carpetBasicInfos);
         //LoadingScreenGo.SetActive(false);
         getRequestToServer.Response = null;
     }
 
 
-    private void GenerateCarpetList(List<Carpet> carpets)
+    private void GenerateCarpetList(List<CarpetBasicInfo> carpetBasicInfos)
     {
         Debug.Log("Hekllo");
         GameObject tmpCarpetGo;
@@ -58,14 +63,14 @@ public class CarpetListScreenController : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);
         }
-        foreach (Carpet carpet in carpets)
+        foreach (CarpetBasicInfo carpetBasicInfo in carpetBasicInfos)
         {
             tmpCarpetGo = Instantiate(CarpetPrefab, ParentViewPortGo.transform);
             CarpetController carpetController = tmpCarpetGo.GetComponent<CarpetController>();
             carpetController.LoadingScreen = LoadingScreenGo;
             carpetController.CarpetDetailsGo = CarpetDetailsGo;
             Debug.Log("Hekllo2");
-            carpetController.FillContent(carpet);
+            carpetController.FillContent(carpetBasicInfo);
         }
     }
 }
