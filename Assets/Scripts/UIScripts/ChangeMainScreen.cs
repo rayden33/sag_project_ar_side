@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class ChangeMainScreen : MonoBehaviour
 {
     [SerializeField] private GameObject[] ActionScreensGo;
+    
     void Start()
     {
         hideAllActionScreens();
@@ -41,6 +42,11 @@ public class ChangeMainScreen : MonoBehaviour
     {
         Application.OpenURL("https://www.google.com/maps/d/edit?mid=1g9Q3KOPBWNBOzICGMdeOL6Fjwk1tJ0G0&usp=sharing");
       
+    }
+
+    public void TryAgainClick()
+    {
+        SceneManager.LoadScene(0);
     }
 
 

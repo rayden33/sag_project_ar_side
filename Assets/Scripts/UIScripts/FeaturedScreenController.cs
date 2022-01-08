@@ -8,8 +8,8 @@ public class FeaturedScreenController : MonoBehaviour
     [SerializeField] private GameObject RequestServerManagerPrefab;
     [SerializeField] private GameObject CarpetPrefab;
     [SerializeField] private GameObject CarpetListParentViewPortGo;
-    [SerializeField] private GameObject CollectionPrefab;
-    [SerializeField] private GameObject CollectionParentViewPortGo;
+    [SerializeField] private GameObject TopCarpetPrefab;
+    [SerializeField] private GameObject TopCarpetParentViewPortGo;
     [SerializeField] private GameObject CarpetListGo;
     [SerializeField] private GameObject LoadingScreenGo;
     [SerializeField] private GameObject CarpetDetailsGo;
@@ -34,27 +34,27 @@ public class FeaturedScreenController : MonoBehaviour
 
     private void OnEnable()
     {
-        loadCollectionList();
-        loadCarpetList();
+        loadTopCarpetList();
+        loadRandomCarpetList();
     }
 
-    private void loadCollectionList()
+    private void loadTopCarpetList()
     {
-        if (CollectionParentViewPortGo.transform.childCount > 0)
+        if (TopCarpetParentViewPortGo.transform.childCount > 0)
             return;
         LoadingScreenGo.SetActive(true);
-        LoadMainCollectionsFromServer();
+        LoadTopCarpetsFromServer();
     }
 
-    private void loadCarpetList()
+    private void loadRandomCarpetList()
     {
         if (CarpetListParentViewPortGo.transform.childCount > 0)
             return;
         LoadingScreenGo.SetActive(true);
-        LoadMainCarpetsFromServer();
+        LoadRandomCarpetsFromServer();
     }
 
-    private async void LoadMainCarpetsFromServer()
+    private async void LoadTopCarpetsFromServer()
     {
         GameObject requestServerManagerGo = Instantiate(RequestServerManagerPrefab);
         GetRequestToServer getRequestToServer = requestServerManagerGo.GetComponent<GetRequestToServer>();
@@ -67,11 +67,49 @@ public class FeaturedScreenController : MonoBehaviour
 
         List<CarpetBasicInfo> carpetBasicInfos = new List<CarpetBasicInfo>();
         carpetBasicInfos.AddRange(JsonHelper.FromJson<CarpetBasicInfo>(getRequestToServer.Response));
-        GenerateCarpetList(carpetBasicInfos);
+        GenerateTopCarpetList(carpetBasicInfos);
         getRequestToServer.Response = null;
     }
 
-    private void GenerateCarpetList(List<CarpetBasicInfo> carpetBasicInfos)
+
+    private void GenerateTopCarpetList(List<CarpetBasicInfo> carpetBasicInfos)
+    {
+        Debug.Log("Hello");
+        GameObject tmpCarpetGo;
+        /// Destroy all children
+        foreach (Transform child in TopCarpetParentViewPortGo.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        foreach (CarpetBasicInfo carpetBasicInfo in carpetBasicInfos)
+        {
+            tmpCarpetGo = Instantiate(TopCarpetPrefab, TopCarpetParentViewPortGo.transform);
+            TopCarpetController carpetController = tmpCarpetGo.GetComponent<TopCarpetController>();
+            carpetController.LoadingScreen = LoadingScreenGo;
+            carpetController.CarpetDetailsGo = CarpetDetailsGo;
+            Debug.Log(carpetBasicInfo.id + "Hellkoooo2");
+            carpetController.FillContent(carpetBasicInfo);
+        }
+    }
+
+    private async void LoadRandomCarpetsFromServer()
+    {
+        GameObject requestServerManagerGo = Instantiate(RequestServerManagerPrefab);
+        GetRequestToServer getRequestToServer = requestServerManagerGo.GetComponent<GetRequestToServer>();
+        //GetRequestToServer getRequestToServer = new GetRequestToServer();
+        List<KeyValuePair<string, string>> getParams = new List<KeyValuePair<string, string>>();
+        getRequestToServer.RequestToServerAPI("get-random-carpets", getParams);
+        while (getRequestToServer.Response == null)
+            await Task.Yield();
+        Debug.Log(getRequestToServer.Response);
+
+        List<CarpetBasicInfo> carpetBasicInfos = new List<CarpetBasicInfo>();
+        carpetBasicInfos.AddRange(JsonHelper.FromJson<CarpetBasicInfo>(getRequestToServer.Response));
+        GenerateRandomCarpetList(carpetBasicInfos);
+        getRequestToServer.Response = null;
+    }
+
+    private void GenerateRandomCarpetList(List<CarpetBasicInfo> carpetBasicInfos)
     {
         Debug.Log("Hello");
         GameObject tmpCarpetGo;
@@ -92,49 +130,7 @@ public class FeaturedScreenController : MonoBehaviour
     }
 
 
-    private async void LoadMainCollectionsFromServer()
-    {
-        GameObject requestServerManagerGo = Instantiate(RequestServerManagerPrefab);
-        GetRequestToServer getRequestToServer = requestServerManagerGo.GetComponent<GetRequestToServer>();
-        //GetRequestToServer getRequestToServer = new GetRequestToServer();
-        List<KeyValuePair<string, string>> getParams = new List<KeyValuePair<string, string>>();
-        getRequestToServer.RequestToServerAPI("get-collections", getParams);
-        while (getRequestToServer.Response == null)
-            await Task.Yield();
-        Debug.Log(getRequestToServer.Response);
-
-        List<CollectionBasicInfo> collectionBasicInfos = new List<CollectionBasicInfo>();
-        collectionBasicInfos.AddRange(JsonHelper.FromJson<CollectionBasicInfo>(getRequestToServer.Response));
-
-        GenerateCollectionList(collectionBasicInfos);
-        //LoadingScreenGo.SetActive(false);
-        getRequestToServer.Response = null;
-    }
-
-
-    private void GenerateCollectionList(List<CollectionBasicInfo> collectionBasicInfos)
-    {
-        int activeCollectionCount = 0;
-        GameObject tmpCollectionGo;
-        /// Destroy all children
-        foreach (Transform child in CollectionParentViewPortGo.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-        foreach (CollectionBasicInfo collectionBasicInfo in collectionBasicInfos)
-        {
-            if (collectionBasicInfo.status == 0)
-                continue;
-            tmpCollectionGo = Instantiate(CollectionPrefab, CollectionParentViewPortGo.transform);
-            CollectionController collectionController = tmpCollectionGo.GetComponent<CollectionController>();
-            collectionController.LoadingScreen = LoadingScreenGo;
-            collectionController.CarpetListGo = CarpetListGo;
-            collectionController.FillContent(collectionBasicInfo);
-            activeCollectionCount++;
-        }
-        if (activeCollectionCount == 0)
-            LoadingScreenGo.SetActive(false);
-    }
+    
 
     
 }

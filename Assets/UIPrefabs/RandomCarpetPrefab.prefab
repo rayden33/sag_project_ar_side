@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 6635759808483028507}
   - component: {fileID: 7365881377975627347}
   m_Layer: 5
-  m_Name: MainCarpetPrefab
+  m_Name: RandomCarpetPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

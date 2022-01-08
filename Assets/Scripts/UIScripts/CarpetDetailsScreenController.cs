@@ -118,6 +118,7 @@ public class CarpetDetailsScreenController : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     Texture2D webTexture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture as Texture2D;
+                    webTexture = rotate(webTexture);
                     Sprite webSprite = SpriteFromTexture2D(webTexture);
                     carpetImage.sprite = webSprite;
                     break;
@@ -136,6 +137,21 @@ public class CarpetDetailsScreenController : MonoBehaviour
     {
         if(!string.IsNullOrEmpty(Carpet.carpet_order_url))
             Application.OpenURL(Carpet.carpet_order_url);
+    }
+
+    public Texture2D rotate(Texture2D t)
+    {
+        Texture2D newTexture = new Texture2D(t.height, t.width, t.format, false);
+
+        for (int i = 0; i < t.width; i++)
+        {
+            for (int j = 0; j < t.height; j++)
+            {
+                newTexture.SetPixel(j, i, t.GetPixel(t.width - i, j));
+            }
+        }
+        newTexture.Apply();
+        return newTexture;
     }
 
 }

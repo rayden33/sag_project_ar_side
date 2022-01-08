@@ -10,5 +10,6 @@ public class CarpetBasicInfo
     public string serial_number;
     public string avatar_url;
     public int is_in_main;
+    public string collection_name;
 
 }
