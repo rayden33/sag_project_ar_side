@@ -70,7 +70,7 @@ public class CarpetListScreenController : MonoBehaviour
             carpetController.LoadingScreen = LoadingScreenGo;
             carpetController.CarpetDetailsGo = CarpetDetailsGo;
             Debug.Log("Hekllo2");
-            carpetController.FillContent(carpetBasicInfo);
+            carpetController.FillContent(carpetBasicInfo,false);
         }
     }
 }

@@ -125,7 +125,7 @@ public class FeaturedScreenController : MonoBehaviour
             carpetController.LoadingScreen = LoadingScreenGo;
             carpetController.CarpetDetailsGo = CarpetDetailsGo;
             Debug.Log(carpetBasicInfo.id + "Hellkoooo");
-            carpetController.FillContent(carpetBasicInfo);
+            carpetController.FillContent(carpetBasicInfo,true);
         }
     }
 

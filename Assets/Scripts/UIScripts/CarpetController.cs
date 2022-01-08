@@ -18,9 +18,11 @@ public class CarpetController : MonoBehaviour
 
 
     private string TextureURL = "";
+    private bool _IsMainMenu = false;
 
-    public void FillContent(CarpetBasicInfo carpetBasicInfo)
+    public void FillContent(CarpetBasicInfo carpetBasicInfo, bool isMainMenu)
     {
+        _IsMainMenu = isMainMenu;
         CarpetBasicInfo = carpetBasicInfo;
         RectTransform rt = this.GetComponent<RectTransform>();
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, 278);
@@ -62,6 +64,8 @@ public class CarpetController : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     Texture2D webTexture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture as Texture2D;
+                    if(!_IsMainMenu)
+                        webTexture = rotate(webTexture);
                     Sprite webSprite = SpriteFromTexture2D(webTexture);
                     ContentImage.sprite = webSprite;
                     break;
@@ -73,6 +77,21 @@ public class CarpetController : MonoBehaviour
     Sprite SpriteFromTexture2D(Texture2D texture)
     {
         return Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+    }
+
+    public Texture2D rotate(Texture2D t)
+    {
+        Texture2D newTexture = new Texture2D(t.height, t.width, t.format, false);
+
+        for (int i = 0; i < t.width; i++)
+        {
+            for (int j = 0; j < t.height; j++)
+            {
+                newTexture.SetPixel(j, i, t.GetPixel(t.width - i, j));
+            }
+        }
+        newTexture.Apply();
+        return newTexture;
     }
 
 }
